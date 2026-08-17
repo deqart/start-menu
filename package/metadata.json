@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Id": "org.dekart.start",
+        "Name": "Start Menu",
+        "Description": "An actually good start menu",
+        "License": "GPL-3.0-only",
+        "Icon": "applications-system",
+        "ServiceTypes": [ "Plasma/Applet" ]
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
