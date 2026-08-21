@@ -33,7 +33,7 @@ PlasmoidItem {
                     top:   parent.top
                     left:  parent.left
                     right: parent.right
-                    bottom: sessionOptions.top
+                    bottom: sessionRow.top
 
                     margins: 12
                 }
@@ -51,14 +51,14 @@ PlasmoidItem {
                         Kirigami.Icon {
                             width: 32
                             height: 32
-                            source: modelData.icon
                             anchors.verticalCenter: parent.verticalCenter
+                            source: modelData.icon
                         }
 
                         PlasmaComponents.Label {
+                            anchors.verticalCenter: parent.verticalCenter
                             text: modelData.name
                             elide: Text.ElideRight
-                            anchors.verticalCenter: parent.verticalCenter
                             color: Kirigami.Theme.textColor
                         }
                     }
@@ -70,44 +70,66 @@ PlasmoidItem {
             }
 
             RowLayout {
-                id: sessionOptions
-                anchors.bottom: parent.bottom
+                id: sessionRow
+                anchors.left: parent.left
                 anchors.right: parent.right
+                anchors.bottom: parent.bottom
                 anchors.margins: 8
 
-                IconButton {
-                    source: "system-lock-screen"
-                    width:  40
-                    height: 40
-                    onClicked: {
-                        backend.lockScreen()
+                RowLayout {
+                    Kirigami.Icon {
+                        width: 40
+                        height: 40
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: backend.userProfilePicture
+                        fallback: "avatar-default-symbolic"
+                    }
+
+                    PlasmaComponents.Label {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: backend.userName
+                        elide: Text.ElideRight
+                        color: Kirigami.Theme.textColor
                     }
                 }
 
-                IconButton {
-                    source: "system-log-out"
-                    width:  40
-                    height: 40
-                    onClicked: {
-                        backend.logoutDialog()
-                    }
-                }
+                RowLayout {
+                    anchors.right: parent.right
 
-                IconButton {
-                    source: "system-reboot"
-                    width:  40
-                    height: 40
-                    onClicked: {
-                        backend.restartDialog()
+                    IconButton {
+                        width:  40
+                        height: 40
+                        source: "system-lock-screen"
+                        onClicked: {
+                            backend.lockScreen()
+                        }
                     }
-                }
 
-                IconButton {
-                    source: "system-shutdown"
-                    width:  40
-                    height: 40
-                    onClicked: {
-                        backend.shutdownDialog()
+                    IconButton {
+                        width:  40
+                        height: 40
+                        source: "system-log-out"
+                        onClicked: {
+                            backend.logoutDialog()
+                        }
+                    }
+
+                    IconButton {
+                        width:  40
+                        height: 40
+                        source: "system-reboot"
+                        onClicked: {
+                            backend.restartDialog()
+                        }
+                    }
+
+                    IconButton {
+                        width:  40
+                        height: 40
+                        source: "system-shutdown"
+                        onClicked: {
+                            backend.shutdownDialog()
+                        }
                     }
                 }
             }

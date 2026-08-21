@@ -6,6 +6,7 @@
 #include <QRegularExpression>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#include <KUser>
 
 #include "start_menu.h"
 
@@ -33,6 +34,25 @@ void Backend::loadIcon()
     }
 
     m_resolved_icon = QStringLiteral("start-here-kde-symbolic");
+}
+
+QString Backend::userName() const
+{
+    KUser user;
+    QString name = user.property(KUser::FullName).toString();
+    if (name.isEmpty())
+        name = user.loginName();
+    return name;
+}
+
+QString Backend::userProfilePicture() const
+{
+    KUser user;
+    QString file_path = user.faceIconPath();
+    if (QFile::exists(file_path))
+        return file_path;
+
+    return QStringLiteral("avatar-default");
 }
 
 void Backend::loadApplications()
@@ -69,9 +89,10 @@ void Backend::loadApplications()
 
             bool display = !desktop_file.value(QStringLiteral("NoDisplay"), false).toBool();
             bool hidden = desktop_file.value(QStringLiteral("Hidden"), false).toBool();
+            QString not_show_in = desktop_file.value(QStringLiteral("NotShowIn")).toString();
             QString type = desktop_file.value(QStringLiteral("Type")).toString();
 
-            if (!display || hidden || type != QLatin1String("Application"))
+            if (!display || hidden || not_show_in == QLatin1String("KDE") || type != QLatin1String("Application"))
             {
                 desktop_file.endGroup();
                 continue;

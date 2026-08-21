@@ -17,7 +17,7 @@ include(KDECMakeSettings)
 #include(KDECompilerSettings NO_POLICY_SCOPE)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick DBus)
-find_package(KF6 REQUIRED COMPONENTS Config)
+find_package(KF6 REQUIRED COMPONENTS CoreAddons Config)
 find_package(Plasma REQUIRED)
 
 ecm_add_qml_module(start-menu
@@ -39,6 +39,7 @@ target_link_libraries(start-menu PRIVATE
     Qt6::Qml
     Qt6::Quick
     Qt6::DBus
+    KF6::CoreAddons
     Plasma::Plasma
 )
 

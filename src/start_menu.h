@@ -4,18 +4,22 @@
 #include <QObject>
 #include <QString>
 #include <QVariantList>
-#include <qqml.h>
+#include <QtQml>
 
 class Backend : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString resolvedIcon READ resolvedIcon CONSTANT)
+    Q_PROPERTY(QString userName READ userName CONSTANT)
+    Q_PROPERTY(QString userProfilePicture READ userProfilePicture CONSTANT)
     Q_PROPERTY(QVariantList applicationList READ applicationList NOTIFY applicationsChanged)
     QML_ELEMENT
 
 public:
     explicit Backend(QObject *parent = nullptr);
 
+    QString userName() const;
+    QString userProfilePicture() const;
     QString resolvedIcon() const { return m_resolved_icon; }
     QVariantList applicationList() const { return m_applications; }
 
