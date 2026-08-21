@@ -18,9 +18,9 @@ class Backend : public QObject
 public:
     explicit Backend(QObject *parent = nullptr);
 
+    QString resolvedIcon() const;
     QString userName() const;
     QString userProfilePicture() const;
-    QString resolvedIcon() const { return m_resolved_icon; }
     QVariantList applicationList() const { return m_applications; }
 
     Q_INVOKABLE void launchApplication(const QString &exec_command);
@@ -30,14 +30,12 @@ public:
     Q_INVOKABLE void logoutDialog();
     Q_INVOKABLE void lockScreen();
 
-    void loadIcon();
     void loadApplications();
 
 signals:
     void applicationsChanged();
 
 private:
-    QString m_resolved_icon;
     QVariantList m_applications;
 };
 

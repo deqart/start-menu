@@ -1,4 +1,5 @@
 #include <QDir>
+#include <QMap>
 #include <QIcon>
 #include <QProcess>
 #include <QSettings>
@@ -6,34 +7,27 @@
 #include <QRegularExpression>
 #include <QDBusMessage>
 #include <QDBusConnection>
+#include <KOSRelease>
 #include <KUser>
 
 #include "start_menu.h"
 
 Backend::Backend(QObject *parent) : QObject(parent)
 {
-    loadIcon();
     loadApplications();
 }
 
-void Backend::loadIcon()
+QString Backend::resolvedIcon() const
 {
-    QStringList icon_list = {
-        QStringLiteral("emblem-debian-white"),
-        QStringLiteral("archlinux-logo"),
-        QStringLiteral("fedora-logo")
+    QMap<QString, QString> icon_map = {
+        {QStringLiteral("debian"), QStringLiteral("emblem-debian-white")}
     };
 
-    for (const QString &icon_name : icon_list)
-    {
-        if (QIcon::hasThemeIcon(icon_name))
-        {
-            m_resolved_icon = icon_name;
-            return;
-        }
-    }
+    QString icon_name = icon_map.value(KOSRelease().id());
+    if (QIcon::hasThemeIcon(icon_name))
+        return icon_name;
 
-    m_resolved_icon = QStringLiteral("start-here-kde-symbolic");
+    return QStringLiteral("start-here-kde-symbolic");
 }
 
 QString Backend::userName() const
