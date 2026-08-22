@@ -4,8 +4,7 @@
         "Name": "Start Menu",
         "Description": "An actually good start menu",
         "License": "GPL-3.0-only",
-        "Icon": "applications-system",
-        "ServiceTypes": [ "Plasma/Applet" ]
+        "Icon": "applications-system"
     },
     "KPackageStructure": "Plasma/Applet",
     "X-Plasma-API-Minimum-Version": "6.0"

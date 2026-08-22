@@ -33,6 +33,7 @@ public:
     void loadApplications();
 
 signals:
+    void hideRequested();
     void applicationsChanged();
 
 private:

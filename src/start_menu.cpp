@@ -129,6 +129,7 @@ void Backend::launchApplication(const QString &exec)
     {
         KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
         job->start();
+        emit hideRequested();
     }
 }
 

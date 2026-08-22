@@ -9,7 +9,12 @@ import org.dekart.start as StartMenu
 PlasmoidItem {
     id: root
 
-    StartMenu.Backend { id: backend }
+    StartMenu.Backend {
+        id: backend
+        onHideRequested: {
+            root.expanded = false
+        }
+    }
 
     Plasmoid.icon: backend.resolvedIcon
 
