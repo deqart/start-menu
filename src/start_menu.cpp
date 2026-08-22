@@ -7,8 +7,10 @@
 #include <QRegularExpression>
 #include <QDBusMessage>
 #include <QDBusConnection>
-#include <KOSRelease>
 #include <KUser>
+#include <KService>
+#include <KOSRelease>
+#include <KIO/ApplicationLauncherJob>
 
 #include "start_menu.h"
 
@@ -94,17 +96,13 @@ void Backend::loadApplications()
 
             QString name = desktop_file.value(QStringLiteral("Name")).toString();
             QString icon = desktop_file.value(QStringLiteral("Icon")).toString();
-            QString exec = desktop_file.value(QStringLiteral("Exec")).toString();
-
-            exec.remove(QRegularExpression(QStringLiteral(" %[UuFfKkci]")));
-            exec = exec.trimmed();
 
             if (!name.isEmpty())
             {
                 QVariantMap app = {
                     {"name", name},
                     {"icon", (icon.isEmpty() ? QStringLiteral("application-x-executable") : icon)},
-                    {"exec", exec}
+                    {"exec", file_info.filePath()}
                 };
 
                 m_applications.append(app);
@@ -121,10 +119,17 @@ void Backend::loadApplications()
     emit applicationsChanged();
 }
 
-void Backend::launchApplication(const QString &exec_command)
+void Backend::launchApplication(const QString &exec)
 {
-    if (!exec_command.isEmpty())
-        QProcess::startDetached(exec_command);
+    if (exec.isEmpty())
+        return;
+
+    KService::Ptr service = KService::serviceByStorageId(exec);
+    if (service != nullptr)
+    {
+        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
+        job->start();
+    }
 }
 
 void Backend::shutdownDialog()

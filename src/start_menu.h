@@ -23,7 +23,7 @@ public:
     QString userProfilePicture() const;
     QVariantList applicationList() const { return m_applications; }
 
-    Q_INVOKABLE void launchApplication(const QString &exec_command);
+    Q_INVOKABLE void launchApplication(const QString &exec);
 
     Q_INVOKABLE void shutdownDialog();
     Q_INVOKABLE void restartDialog();
