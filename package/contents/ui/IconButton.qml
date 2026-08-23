@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
 Item {
@@ -7,9 +6,6 @@ Item {
 
     property string source: ""
     signal clicked()
-
-    Layout.preferredWidth:  width
-    Layout.preferredHeight: height
 
     Kirigami.Icon {
         id: iconItem
@@ -23,7 +19,7 @@ Item {
 
     MouseArea {
         id: area
-        anchors.fill: parent
+        anchors.fill: iconItem
         hoverEnabled: true
 
        onClicked: root.clicked()
