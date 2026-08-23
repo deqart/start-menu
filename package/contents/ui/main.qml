@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents
@@ -82,19 +83,17 @@ PlasmoidItem {
                 anchors.margins: 8
 
                 RowLayout {
-                    Kirigami.Icon {
-                        width: 40
+                    ProfileIcon {
+                        width:  40
                         height: 40
                         anchors.verticalCenter: parent.verticalCenter
                         source: backend.userProfilePicture
-                        fallback: "avatar-default-symbolic"
                     }
 
-                    PlasmaComponents.Label {
+                    Kirigami.Heading {
                         anchors.verticalCenter: parent.verticalCenter
                         text: backend.userName
                         elide: Text.ElideRight
-                        color: Kirigami.Theme.textColor
                     }
                 }
 
