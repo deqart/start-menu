@@ -26,7 +26,7 @@ QString Backend::resolvedIcon() const
     };
 
     QString icon_name = icon_map.value(KOSRelease().id());
-    if (QIcon::hasThemeIcon(icon_name))
+    if (!icon_name.isEmpty() && QIcon::hasThemeIcon(icon_name))
         return icon_name;
 
     return QStringLiteral("start-here-kde-symbolic");
