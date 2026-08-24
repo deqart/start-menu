@@ -2,8 +2,10 @@
 #include <QMap>
 #include <QIcon>
 #include <QProcess>
+#include <QGuiApplication>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QStyleHints>
 #include <QRegularExpression>
 #include <QDBusMessage>
 #include <QDBusConnection>
@@ -11,18 +13,30 @@
 #include <KService>
 #include <KOSRelease>
 #include <KIO/ApplicationLauncherJob>
+#include <Plasma/Theme>
 
 #include "start_menu.h"
 
+QString themePreferredIcon(QString light, QString dark)
+{
+    if (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+        return dark;
+    return light;
+}
+
 Backend::Backend(QObject *parent) : QObject(parent)
 {
+    connect(new Plasma::Theme(this), &Plasma::Theme::themeChanged, this, [this]() {
+        emit resolvedIconChanged();
+    });
+
     loadApplications();
 }
 
 QString Backend::resolvedIcon() const
 {
     QMap<QString, QString> icon_map = {
-        {QStringLiteral("debian"), QStringLiteral("emblem-debian-white")}
+        {QStringLiteral("debian"), themePreferredIcon("emblem-debian-symbolic", "emblem-debian-white")}
     };
 
     QString icon_name = icon_map.value(KOSRelease().id());

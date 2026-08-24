@@ -15,8 +15,8 @@ include(ECMQmlModule)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick DBus)
-find_package(KF6 REQUIRED COMPONENTS CoreAddons Config KIO)
+find_package(Qt6 REQUIRED COMPONENTS Core DBus Gui Qml Quick)
+find_package(KF6 REQUIRED COMPONENTS CoreAddons KIO)
 find_package(Plasma REQUIRED)
 
 ecm_add_qml_module(start-menu
@@ -35,9 +35,10 @@ target_include_directories(start-menu PRIVATE
 
 target_link_libraries(start-menu PRIVATE
     Qt6::Core
+    Qt6::DBus
+    Qt6::Gui
     Qt6::Qml
     Qt6::Quick
-    Qt6::DBus
     KF6::CoreAddons
     KF6::KIOGui
     Plasma::Plasma
