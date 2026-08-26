@@ -85,6 +85,7 @@ PlasmoidItem {
                 anchors.right: parent.right
 
                 background: Rectangle {
+                    radius: Kirigami.Units.cornerRadius
                     color: Qt.darker(Kirigami.Theme.backgroundColor, 1.25)
                 }
 
