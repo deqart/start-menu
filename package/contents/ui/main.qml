@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
+import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PlasmaComponents
 import org.kde.plasma.plasmoid
@@ -38,10 +39,12 @@ PlasmoidItem {
                 anchors {
                     top:   parent.top
                     left:  parent.left
-                    right: parent.right
                     bottom: sessionRow.top
+                    right: parent.right
 
-                    margins: 12
+                    topMargin:   8
+                    leftMargin:  8
+                    rightMargin: 8
                 }
                 model: backend.applicationList
                 clip: true
@@ -75,64 +78,71 @@ PlasmoidItem {
                 }
             }
 
-            RowLayout {
+            Pane {
                 id: sessionRow
                 anchors.left: parent.left
-                anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                anchors.margins: 8
+                anchors.right: parent.right
 
-                RowLayout {
-                    ProfileIcon {
-                        width:  40
-                        height: 40
-                        anchors.verticalCenter: parent.verticalCenter
-                        source: backend.userProfilePicture
-                    }
-
-                    Kirigami.Heading {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: backend.userName
-                        elide: Text.ElideRight
-                    }
+                background: Rectangle {
+                    color: Qt.darker(Kirigami.Theme.backgroundColor, 1.25)
                 }
 
-                RowLayout {
-                    anchors.right: parent.right
+                contentItem: RowLayout {
+                    anchors.margins: 8
 
-                    IconButton {
-                        width:  40
-                        height: 40
-                        source: "system-lock-screen"
-                        onClicked: {
-                            backend.lockScreen()
+                    RowLayout {
+                        ProfileIcon {
+                            width:  40
+                            height: 40
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: backend.userProfilePicture
+                        }
+
+                        Kirigami.Heading {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: backend.userName
+                            elide: Text.ElideRight
                         }
                     }
 
-                    IconButton {
-                        width:  40
-                        height: 40
-                        source: "system-log-out"
-                        onClicked: {
-                            backend.logoutDialog()
-                        }
-                    }
+                    RowLayout {
+                        anchors.right: parent.right
 
-                    IconButton {
-                        width:  40
-                        height: 40
-                        source: "system-reboot"
-                        onClicked: {
-                            backend.restartDialog()
+                        IconButton {
+                            width:  40
+                            height: 40
+                            source: "system-lock-screen"
+                            onClicked: {
+                                backend.lockScreen()
+                            }
                         }
-                    }
 
-                    IconButton {
-                        width:  40
-                        height: 40
-                        source: "system-shutdown"
-                        onClicked: {
-                            backend.shutdownDialog()
+                        IconButton {
+                            width:  40
+                            height: 40
+                            source: "system-log-out"
+                            onClicked: {
+                                backend.logoutDialog()
+                            }
+                        }
+
+                        IconButton {
+                            width:  40
+                            height: 40
+                            source: "system-reboot"
+                            onClicked: {
+                                backend.restartDialog()
+                            }
+                        }
+
+                        IconButton {
+                            width:  40
+                            height: 40
+                            source: "system-shutdown"
+                            onClicked: {
+                                backend.shutdownDialog()
+                            }
                         }
                     }
                 }
