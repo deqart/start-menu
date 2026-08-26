@@ -1,5 +1,5 @@
 default:
-	cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/.local
+	cmake -S . -B build -DCMAKE_INSTALL_PREFIX="${HOME}/.local"
 	cmake --build build
 
 install: default
