@@ -21,7 +21,7 @@ public:
     QString resolvedIcon() const;
     QString userName() const;
     QString userProfilePicture() const;
-    QVariantList applicationList() const { return m_applications; }
+    QVariantList applicationList() const;
 
     Q_INVOKABLE void launchApplication(const QString &exec);
 
@@ -30,15 +30,19 @@ public:
     Q_INVOKABLE void logoutDialog();
     Q_INVOKABLE void lockScreen();
 
-    void loadApplications();
-
 signals:
     void hideRequested();
     void resolvedIconChanged();
     void applicationsChanged();
 
 private:
-    QVariantList m_applications;
+    QFileSystemWatcher m_watcher;
+
+    inline static const QStringList k_app_dirs = {
+        QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation),
+        QStringLiteral("/usr/local/share/applications"),
+        QStringLiteral("/usr/share/applications")
+    };
 };
 
 #endif /* START_MENU_H */

@@ -30,7 +30,11 @@ Backend::Backend(QObject *parent) : QObject(parent)
         emit resolvedIconChanged();
     });
 
-    loadApplications();
+    m_watcher.addPaths(k_app_dirs);
+
+    connect(&m_watcher, &QFileSystemWatcher::directoryChanged, this, [this]() {
+        emit applicationsChanged();
+    });
 }
 
 QString Backend::resolvedIcon() const
@@ -65,19 +69,13 @@ QString Backend::userProfilePicture() const
     return QStringLiteral("avatar-default");
 }
 
-void Backend::loadApplications()
+QVariantList Backend::applicationList() const
 {
-    m_applications.clear();
-
-    QStringList app_dirs = {
-        QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation),
-        QStringLiteral("/usr/local/share/applications"),
-        QStringLiteral("/usr/share/applications")
-    };
+    QVariantList applications;
 
     QSet<QString> processed_files;
 
-    for (const QString &dir_path : app_dirs)
+    for (const QString &dir_path : k_app_dirs)
     {
         QDir dir(dir_path);
         if (!dir.exists()) continue;
@@ -119,18 +117,18 @@ void Backend::loadApplications()
                     {"exec", file_info.filePath()}
                 };
 
-                m_applications.append(app);
+                applications.append(app);
             }
 
             desktop_file.endGroup();
         }
     }
 
-    std::sort(m_applications.begin(), m_applications.end(), [](const QVariant &a, const QVariant &b) {
+    std::sort(applications.begin(), applications.end(), [](const QVariant &a, const QVariant &b) {
         return a.toMap().value("name").toString() < b.toMap().value("name").toString();
     });
 
-    emit applicationsChanged();
+    return applications;
 }
 
 void Backend::launchApplication(const QString &exec)
