@@ -11,9 +11,9 @@ set(QT_MIN_VERSION "6.6.0")
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-include(ECMQmlModule)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
+include(ECMQmlModule)
 
 find_package(Qt6 REQUIRED COMPONENTS Core DBus Gui Qml Quick)
 find_package(KF6 REQUIRED COMPONENTS CoreAddons KIO)
