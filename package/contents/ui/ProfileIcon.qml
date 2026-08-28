@@ -25,13 +25,13 @@ Item {
 
     Rectangle {
         anchors.fill: profileIcon
+        anchors.margins: -1
         radius: width / 2
         color: Kirigami.Theme.textColor
     }
 
     MultiEffect {
         anchors.fill: profileIcon
-        anchors.margins: 2
         source: profileIcon
         maskEnabled: true
         maskSource: mask
